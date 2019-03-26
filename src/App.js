@@ -58,6 +58,134 @@ function direWolf() {
   return beast;
 }
 
+function giantOctopus() {
+  let beast = new Beast();
+  beast.name = "Giant Octopus"
+  beast.ac = 11;
+  beast.hp = 52;
+  beast.speed = 10;
+  beast.swimSpeed = 60;
+  beast.atts.setAtts([17, 13, 13, 4, 10, 4]);
+  beast.skills = [skill.PERCEPTION, skill.STEALTH]
+  beast.profBonus = 4;
+  beast.addSense("darkvision 60ft.")
+  let feat = new Action();
+  feat.name = "Hold Breath";
+  feat.desc = "While out of water, you can hold your breath for 1 hour.";
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Underwater Camouflage";
+  feat.desc = "You have advantage on Dexterity (Stealth) checks made while underwater."
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Water Breathing";
+  feat.desc = "You can breath only underwater."
+  beast.addFeature(feat);
+  let atk = new Attack();
+  atk.name = "Tentacles";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+5 to hit, reach 15ft., one target.";
+  atk.hitDesc = "2d6 + 3 bludgeoning damage. If the target is a creature, it is grappled (escape DC 16). Until this grapple ends, the target is restrained, and you can't use your tentacles on another target.";
+  beast.addAction(atk);
+  atk = new Action();
+  atk.name = "Ink Cloud (Recharges after a Short or Long Rest)";
+  atk.desc = "A 20-foot radius cloud of ink extends all around you if you are underwater. The area is heavily obscured for 1 minute, although a significant current can dispurse the ink. After releasing the ink, you can use the Dash action as a bonus action."
+  beast.addAction(atk);
+  return beast;
+}
+
+function giantSpider() {
+  let beast = new Beast();
+  beast.name = "Giant Spider"
+  beast.ac = 14;
+  beast.hp = 26;
+  beast.speed = 30;
+  beast.climbSpeed = 30;
+  beast.atts.setAtts([14, 16, 12, 0, 0, 0]);
+  beast.skills = [skill.STEALTH]
+  beast.addSense("blindsight 10ft");
+  beast.addSense("darkvision 60ft");
+  beast.profBonus = 4;
+  let feat = new Action();
+  feat.name = "Spider Climb";
+  feat.desc = "You can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check.";
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Web Sense";
+  feat.desc = "While in contact with a web, you know the exact location of any other creature in contact with the same web.";
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Web Walker";
+  feat.desc = "You ignore movement restrictions caused by webbing.";
+  beast.addFeature(feat);
+  let atk = new Attack();
+  atk.name = "Bite";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+5 to hit, reach 5ft., one creature.";
+  atk.hitDesc = "1d8 + 3 piercing damage, and the target must take a DC 11 Constitution saving throw, taking 2d8 poison damage on a failed save, or half as much damage on a successful one. If the poision damage reduces the target to 0 hit points, the target is stable but poisoned for 1 hour, even after regaining hit points, and is paralyzed while poisoned in this way.";
+  beast.addAction(atk);
+  atk = new Attack();
+  atk.name = "Web (Recharge 5-6)"
+  atk.type = "Ranged Weapon Attack";
+  atk.desc = "+5 to hit, range 30/60 ft., one creature."
+  atk.hitDesc = "The target is restrained by webbing. As an action, the restrained target can make a DC 12 Strength check, bursting the webbing on a success. The webbing can also be attacked and destroyed (AC 10; hp 5, vuln. to fire damage; immu. to bludgeoning, poison and psychic damage.)"
+  beast.addAction(atk);
+  return beast;
+}
+
+function giantToad() {
+  let beast = new Beast();
+  beast.name = "Giant Toad"
+  beast.ac = 11;
+  beast.hp = 39;
+  beast.speed = 20;
+  beast.swimSpeed = 40;
+  beast.atts.setAtts([15, 13, 13, 0, 0, 0]);
+  beast.addSense("darkvision 30ft");
+  let feat = new Action();
+  feat.name = "Amphibious";
+  feat.desc = "You can breathe air and water.";
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Standing Leap";
+  feat.desc = "Your long jump is up to 20 feet and your high jump is up to 10 feet, with or without a running start.";
+  beast.addFeature(feat);
+  let atk = new Attack();
+  atk.name = "Bite";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+4 to hit, reach 5ft., one target.";
+  atk.hitDesc = "1d10 + 2 piercing damage plus 1d10 poison damage, and the target is grappled (escape DC 13). Until this grapple ends, the target is restrained, and the you can't bite another target.";
+  beast.addAction(atk);
+  atk = new Action();
+  atk.name = "Swallow";
+  atk.desc = "You make one bite attack against a Medium or smaller target you are grappling. If the attack hits, the target is swallowed, and the grapple ends. The swallowed target is blinded and restrained, it has total cover against attacks and other effects outside of you, and it takes 3d6 acid damage at the start of each of your turns. You can have only one target swallowed at a time.";
+  beast.addAction(atk);
+  return beast;
+}
+
+function cat() {
+  let beast = new Beast();
+  beast.name = "Cat :3c"
+  beast.ac = 12;
+  beast.hp = 2;
+  beast.speed = 40;
+  beast.climbSpeed = 30;
+  beast.atts.setAtts([3, 14, 10, 0, 0, 0]);
+  beast.skills = [skill.PERCEPTION, skill.STEALTH]
+  let feat = new Action();
+  feat.name = "Keen Hearing and Smell";
+  feat.desc = "You have advantage on Wisdom (Perception) checks that rely on hearing or smell.";
+  beast.addFeature(feat);
+  let atk = new Attack();
+  atk.name = "Claws";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+0 to hit, reach 5ft., one target.";
+  atk.hitDesc = "1 slashing damage.";
+  beast.addAction(atk);
+  return beast;
+}
+
+
 const att = {
   STR: "STR",
   DEX: "DEX",
@@ -392,7 +520,11 @@ function skillTable(beastForm) {
 
 var beastFuncs = new Map([
   ["brownBear", brownBear],
-  ["direWolf", direWolf]
+  ["direWolf", direWolf],
+  ["giantOctopus", giantOctopus],
+  ["giantSpider", giantSpider],
+  ["giantToad", giantToad],
+  ["cat", cat]
 ]);
 
 class App extends Component {
@@ -453,8 +585,12 @@ class App extends Component {
         {beastForm.renderActions()}
         {skillTable(beastForm)}
         <select value={this.state.value} onChange={this.handleChange}>
+          <option value={"cat"}>Cat (0)</option>
           <option value={"brownBear"}>Brown Bear (1)</option>
           <option value={"direWolf"}>Dire Wolf (1)</option>
+          <option value={"giantOctopus"}>Giant Octopus (1S)</option>
+          <option value={"giantSpider"}>Giant Spider (1)</option>
+          <option value={"giantToad"}>Giant Toad (1S)</option>
         </select>
       </div>
     );
