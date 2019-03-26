@@ -2,6 +2,62 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+function brownBear() {
+  let bear = new Beast();
+  bear.name = "Brown Bear"
+  bear.ac = 11;
+  bear.hp = 34;
+  bear.speed = 40;
+  bear.climbSpeed = 30;
+  bear.atts.setAtts([19, 10, 16, 2, 13, 7]);
+  let feat = new Action();
+  feat.name = "Keen Smell";
+  feat.desc = "You have advantage on Wisdom (Perception) checks that rely on smell.";
+  bear.addFeature(feat);
+  let act = new Action();
+  act.name = "Multiattack";
+  act.desc = "You make two attacks: one with your bite and one with your claws."
+  bear.addAction(act);
+  let atk = new Attack();
+  atk.name = "Bite";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+5 to hit, reach 5ft., one target.";
+  atk.hitDesc = "1d8 + 4 piercing damage."
+  bear.addAction(atk);
+  let atk2 = new Attack();
+  atk2.name = "Claws";
+  atk2.type = "Melee Weapon Attack";
+  atk2.desc = "+5 to hit, reach 5ft., one target."
+  atk2.hitDesc = "2d6 + 4 slashing damage."
+  bear.addAction(atk2);
+  return bear;
+}
+
+function direWolf() {
+  let beast = new Beast();
+  beast.name = "Dire Wolf"
+  beast.ac = 14;
+  beast.hp = 37;
+  beast.speed = 50;
+  beast.atts.setAtts([17, 15, 15, 3, 12, 7]);
+  beast.skills = [skill.PERCEPTION, skill.STEALTH]
+  let feat = new Action();
+  feat.name = "Keen Hearing and Smell";
+  feat.desc = "You have advantage on Wisdom (Perception) checks that rely on hearing or smell.";
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Pack tactics";
+  feat.desc = "You have advantage on attack rolls against a creature if at least one of your allies is in within 5 feet of the creature and isn't incapacitated";
+  beast.addFeature(feat);
+  let atk = new Attack();
+  atk.name = "Bite";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+5 to hit, reach 5ft., one target.";
+  atk.hitDesc = "2d6 + 3 piercing damage. If the target is a creature, it must succeed on a DC 13 Strength saving throw or be knocked prone.";
+  beast.addAction(atk);
+  return beast;
+}
+
 const att = {
   STR: "STR",
   DEX: "DEX",
@@ -306,39 +362,6 @@ function defaultChar() {
   return char;
 }
 
-function bear() {
-  let bear = new Beast();
-  bear.name = "Bear"
-  bear.ac = 11;
-  bear.hp = 34;
-  bear.speed = 40;
-  bear.climbSpeed = 30;
-  bear.atts.setAtts([19, 10, 16, 2, 13, 7]);
-  let feat = new Action();
-  feat.name = "Keen Smell";
-  feat.desc = "You have advantage on Wisdom (Perception) checks that rely on smell.";
-  bear.addFeature(feat);
-  let act = new Action();
-  act.name = "Multiattack";
-  act.desc = "You make two attacks: one with your bite and one with your claws."
-  bear.addAction(act);
-  let atk = new Attack();
-  atk.name = "Bite";
-  atk.type = "Melee Weapon Attack";
-  atk.desc = "+5 to hit, reach 5ft., one target.";
-  atk.hitDesc = "1d8 + 4 piercing damage."
-  bear.addAction(atk);
-  let atk2 = new Attack();
-  atk2.name = "Claws";
-  atk2.type = "Melee Weapon Attack";
-  atk2.desc = "+5 to hit, reach 5ft., one target."
-  atk2.hitDesc = "2d6 + 4 slashing damage."
-  bear.addAction(atk2);
-  let str = JSON.stringify(bear);
-  console.log(str);
-  return bear;
-}
-
 function attrTable(funcIn) {
   return (
       <tr>
@@ -367,6 +390,11 @@ function skillTable(beastForm) {
   )
 }
 
+var beastFuncs = new Map([
+  ["brownBear", brownBear],
+  ["direWolf", direWolf]
+]);
+
 class App extends Component {
 
   constructor(props) {
@@ -374,14 +402,19 @@ class App extends Component {
 
     this.state = {
       chr: defaultChar(),
-      beast: bear()
+      value: "brownBear"
     }
 
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
   }
 
   render() {
     let chr = this.state.chr;
-    let beast = this.state.beast;
+    let beast = beastFuncs.get(this.state.value)();
     let beastForm = new BeastForm(chr, beast);
 
     return (
@@ -419,6 +452,10 @@ class App extends Component {
         <br/>
         {beastForm.renderActions()}
         {skillTable(beastForm)}
+        <select value={this.state.value} onChange={this.handleChange}>
+          <option value={"brownBear"}>Brown Bear (1)</option>
+          <option value={"direWolf"}>Dire Wolf (1)</option>
+        </select>
       </div>
     );
   }
