@@ -3,12 +3,12 @@ import logo from './logo.svg';
 import './App.css';
 
 const att = {
-  STR: "strength",
-  DEX: "dexterity",
-  CON: "constitution",
-  INT: "intelligence",
-  WIS: "wisdom",
-  CHA: "charisma"
+  STR: "STR",
+  DEX: "DEX",
+  CON: "CON",
+  INT: "INT",
+  WIS: "WIS",
+  CHA: "CHA"
 }
 
 const skill = {
@@ -112,8 +112,8 @@ class Beast {
   constructor() {
     this.name = "";
     this.atts = new Attributes();
-    this.saves = new Set();
-    this.skills = new Set();
+    this.saves = [];
+    this.skills = [];
     this.hp = 10;
     this.ac = 10;
     this.profBonus = 2;
@@ -176,7 +176,7 @@ class BeastForm {
     if (this.character.saves.has(attribute)) {
       prof = this.character.profBonus;
     }
-    if (this.beast.saves.has(attribute)) {
+    if (this.beast.saves.includes(attribute)) {
       prof = Math.max(this.beast.profBonus, prof);
     }
     return val + prof;
@@ -189,7 +189,7 @@ class BeastForm {
     if (this.character.skills.has(skillIn)) {
       prof = this.character.profBonus;
     }
-    if (this.beast.skills.has(skillIn)) {
+    if (this.beast.skills.includes(skillIn)) {
       prof = Math.max(this.beast.profBonus, prof);
     }
     return val + prof;
@@ -199,6 +199,16 @@ class BeastForm {
     return (
       <div>
         {this.beast.actions.map(item =>
+          <div>{item.render()}</div>
+        )}
+      </div>
+    );
+  }
+
+  renderFeatures() {
+    return (
+      <div>
+        {this.beast.features.map(item =>
           <div>{item.render()}</div>
         )}
       </div>
@@ -243,21 +253,27 @@ class BeastForm {
 
 class Attributes {
   constructor() {
-    this.atts = new Map([
+    this.atts = [
       [att.STR, 10],
       [att.DEX, 10],
       [att.CON, 10],
       [att.INT, 10],
       [att.WIS, 10],
-      [att.CHA, 10]])
+      [att.CHA, 10]]
   }
 
   getAtt(attribute) {
-    return this.atts.get(attribute);
+    for (let i = 0; i < this.atts.length; i++) {
+      if (attribute === this.atts[i][0]) {
+        return this.atts[i][1];
+        return 10;
+      }
+    }
+    return undefined;
   }
 
   getBonus(attribute) {
-    let val = this.atts.get(attribute);
+    let val = this.getAtt(attribute);
     if (val === undefined) {
       return undefined;
     }
@@ -265,8 +281,10 @@ class Attributes {
   }
 
   setAtt(attribute, value) {
-    if (this.atts.has(attribute)) {
-      this.atts.set(attribute, value);
+    for (let i = 0; i < this.atts.length; i++) {
+      if (attribute === this.atts[i][0]) {
+        this.atts[i][1] = value;
+      }
     }
   }
 
@@ -299,6 +317,7 @@ function bear() {
   let feat = new Action();
   feat.name = "Keen Smell";
   feat.desc = "You have advantage on Wisdom (Perception) checks that rely on smell.";
+  bear.addFeature(feat);
   let act = new Action();
   act.name = "Multiattack";
   act.desc = "You make two attacks: one with your bite and one with your claws."
@@ -315,6 +334,8 @@ function bear() {
   atk2.desc = "+5 to hit, reach 5ft., one target."
   atk2.hitDesc = "2d6 + 4 slashing damage."
   bear.addAction(atk2);
+  let str = JSON.stringify(bear);
+  console.log(str);
   return bear;
 }
 
@@ -394,6 +415,8 @@ class App extends Component {
           {attrTable(x => beastForm.getSave(x))}
         </table>
         {beastForm.renderSenses()}
+        {beastForm.renderFeatures()}
+        <br/>
         {beastForm.renderActions()}
         {skillTable(beastForm)}
       </div>
