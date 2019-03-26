@@ -4,7 +4,8 @@ import './App.css';
 
 function brownBear() {
   let bear = new Beast();
-  bear.name = "Brown Bear"
+  bear.name = "Brown Bear";
+  bear.size = "Large";
   bear.ac = 11;
   bear.hp = 34;
   bear.speed = 40;
@@ -35,7 +36,8 @@ function brownBear() {
 
 function direWolf() {
   let beast = new Beast();
-  beast.name = "Dire Wolf"
+  beast.name = "Dire Wolf";
+  beast.size = "Large";
   beast.ac = 14;
   beast.hp = 37;
   beast.speed = 50;
@@ -60,7 +62,8 @@ function direWolf() {
 
 function giantOctopus() {
   let beast = new Beast();
-  beast.name = "Giant Octopus"
+  beast.name = "Giant Octopus";
+  beast.size = "Large";
   beast.ac = 11;
   beast.hp = 52;
   beast.speed = 10;
@@ -96,7 +99,8 @@ function giantOctopus() {
 
 function giantSpider() {
   let beast = new Beast();
-  beast.name = "Giant Spider"
+  beast.name = "Giant Spider";
+  beast.size = "Large";
   beast.ac = 14;
   beast.hp = 26;
   beast.speed = 30;
@@ -135,7 +139,8 @@ function giantSpider() {
 
 function giantToad() {
   let beast = new Beast();
-  beast.name = "Giant Toad"
+  beast.name = "Giant Toad";
+  beast.size = "Large";
   beast.ac = 11;
   beast.hp = 39;
   beast.speed = 20;
@@ -165,7 +170,8 @@ function giantToad() {
 
 function cat() {
   let beast = new Beast();
-  beast.name = "Cat :3c"
+  beast.name = "Cat :3c";
+  beast.size = "Tiny";
   beast.ac = 12;
   beast.hp = 2;
   beast.speed = 40;
@@ -295,6 +301,7 @@ class Character {
 class Beast {
   constructor() {
     this.name = "";
+    this.size = "Medium";
     this.atts = new Attributes();
     this.saves = [];
     this.skills = [];
@@ -552,6 +559,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>{beast.name}</h1>
+        <p><em>{beast.size} beast</em></p>
         <p><strong>Armor Class</strong> {beast.ac}</p>
         <p><strong>Hit Points</strong> {beast.hp}</p>
         {beastForm.renderSpeed()}
