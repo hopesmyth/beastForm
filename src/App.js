@@ -483,6 +483,82 @@ class Beast {
     this.senses.push(sense);
   }
 
+  getAtt(attribute) {
+    return this.atts.getAtt(attribute);
+  }
+
+  getBonus(attribute) {
+    let val = this.getAtt(attribute);
+    if (val === undefined) {
+      return undefined;
+    }
+    return Math.floor(val / 2) - 5;
+  }
+
+  getSkill(skillIn) {
+    let attr = skillAtt(skillIn);
+    let val = this.getBonus(attr);
+    let prof = 0;
+    if (this.skills.includes(skillIn)) {
+      prof = this.profBonus;
+    }
+    return val + prof;
+  }
+
+  renderActions() {
+    return (
+      <div>
+        {this.actions.map(item =>
+          <div>{item.render()}</div>
+        )}
+      </div>
+    );
+  }
+
+  renderFeatures() {
+    return (
+      <div>
+        {this.features.map(item =>
+          <div>{item.render()}</div>
+        )}
+      </div>
+    );
+  }
+
+  renderSenses() {
+    return (
+      <div>
+        <p><strong>Senses </strong>
+          {this.senses.map(sense => (
+            <span>{sense}, </span>
+          ))}
+        passive Perception {this.getSkill(skill.PERCEPTION) + 10}</p>
+      </div>
+    )
+  }
+
+  renderSpeed() {
+    let list = [];
+    let beast = this;
+    if (beast.climbSpeed > 0) {
+      list.push(["climb", beast.climbSpeed]);
+    }
+    if (beast.swimSpeed > 0) {
+      list.push(["swim", beast.swimSpeed])
+    }
+    if (beast.flySpeed > 0) {
+      list.push(["fly", beast.flySpeed])
+    }
+
+    return (
+      <div>
+      <p><strong>Speed</strong> {beast.speed} ft.
+      {list.map(item => (
+        <span>, {item[0]} {item[1]} ft.</span>
+      ))}</p>
+      </div>
+    );
+  }
 }
 
 class BeastForm {
@@ -540,26 +616,6 @@ class BeastForm {
     return val + prof;
   }
 
-  renderActions() {
-    return (
-      <div>
-        {this.beast.actions.map(item =>
-          <div>{item.render()}</div>
-        )}
-      </div>
-    );
-  }
-
-  renderFeatures() {
-    return (
-      <div>
-        {this.beast.features.map(item =>
-          <div>{item.render()}</div>
-        )}
-      </div>
-    );
-  }
-
   renderSenses() {
     return (
       <div>
@@ -570,29 +626,6 @@ class BeastForm {
         passive Perception {this.getSkill(skill.PERCEPTION) + 10}</p>
       </div>
     )
-  }
-
-  renderSpeed() {
-    let list = [];
-    let beast = this.beast;
-    if (beast.climbSpeed > 0) {
-      list.push(["climb", beast.climbSpeed]);
-    }
-    if (beast.swimSpeed > 0) {
-      list.push(["swim", beast.swimSpeed])
-    }
-    if (beast.flySpeed > 0) {
-      list.push(["fly", beast.flySpeed])
-    }
-
-    return (
-      <div>
-      <p><strong>Speed</strong> {beast.speed} ft.
-      {list.map(item => (
-        <span>, {item[0]} {item[1]} ft.</span>
-      ))}</p>
-      </div>
-    );
   }
 }
 
@@ -818,7 +851,7 @@ class App extends Component {
         <p><em>{beast.size} beast ({sizeSquares(beast.size)} x {sizeSquares(beast.size)}ft.)</em></p>
         <p><strong>Armor Class</strong> {beast.ac}</p>
         <p><strong>Hit Points</strong> {beast.hp}</p>
-        {beastForm.renderSpeed()}
+        {beast.renderSpeed()}
         <table class="center">
           <tr>
             <th>STR</th>
@@ -844,9 +877,9 @@ class App extends Component {
           {attrTable(x => beastForm.getSave(x))}
         </table>
         {beastForm.renderSenses()}
-        {beastForm.renderFeatures()}
+        {beast.renderFeatures()}
         <hr/>
-        {beastForm.renderActions()}
+        {beast.renderActions()}
         {skillTable(beastForm)}
         <h1>Conjure Animals</h1>
         <select value={this.state.noOfSummons} onChange={this.changeNoOfSummons}>
@@ -857,13 +890,12 @@ class App extends Component {
           <option value={8}>8 beasts (CR 1/4)</option>
         </select>
         <select value={this.state.summon} onChange={this.changeSummon}>
-          <option value={"cat"}>Cat (0)</option>
           <option value={"blackBear"}>Black Bear (1/2)</option>
           <option value={"brownBear"}>Brown Bear (1)</option>
           <option value={"direWolf"}>Dire Wolf (1)</option>
-          <option value={"giantOctopus"}>Giant Octopus (1S)</option>
+          <option value={"giantOctopus"}>Giant Octopus (1)</option>
           <option value={"giantSpider"}>Giant Spider (1)</option>
-          <option value={"giantToad"}>Giant Toad (1S)</option>
+          <option value={"giantToad"}>Giant Toad (1)</option>
           <option value={"caveBear"}>Cave Bear (2)</option>
           <option value={"giantConstrictor"}>Giant Constrictor Snake (2)</option>
           <option value={"giantElk"}>Giant Elk (2)</option>
@@ -874,7 +906,7 @@ class App extends Component {
         <p><em>{beast.size} beast ({sizeSquares(beast.size)} x {sizeSquares(beast.size)}ft.)</em></p>
         <p><strong>Armor Class</strong> {beast.ac}</p>
         <p><strong>Max Hit Points</strong> {beast.hp}</p>
-        {beastForm.renderSpeed()}
+        {summon.renderSpeed()}
         <table class="center">
           <tr>
             <th>STR</th>
@@ -887,10 +919,10 @@ class App extends Component {
           {attrTable(x => summon.atts.getAtt(x))}
           {attrTable(x => summon.atts.getBonus(x))}
         </table>
-        {beastForm.renderSenses()}
-        {beastForm.renderFeatures()}
+        {summon.renderSenses()}
+        {summon.renderFeatures()}
         <hr/>
-        {beastForm.renderActions()}
+        {summon.renderActions()}
       </div>
     );
   }
