@@ -534,6 +534,25 @@ var beastFuncs = new Map([
   ["cat", cat]
 ]);
 
+function sizeSquares(sizeClass) {
+  switch (sizeClass) {
+    case "Tiny":
+      return 2.5;
+    case "Small":
+      return 5;
+    case "Medium":
+      return 5;
+    case "Large":
+      return 10;
+    case "Huge":
+      return 15;
+    case "Gargantuan":
+      return 20;
+    default:
+      return 0;
+  }
+}
+
 class App extends Component {
 
   constructor(props) {
@@ -558,8 +577,16 @@ class App extends Component {
 
     return (
       <div className="App">
+        <select value={this.state.value} onChange={this.handleChange}>
+          <option value={"cat"}>Cat (0)</option>
+          <option value={"brownBear"}>Brown Bear (1)</option>
+          <option value={"direWolf"}>Dire Wolf (1)</option>
+          <option value={"giantOctopus"}>Giant Octopus (1S)</option>
+          <option value={"giantSpider"}>Giant Spider (1)</option>
+          <option value={"giantToad"}>Giant Toad (1S)</option>
+        </select>
         <h1>{beast.name}</h1>
-        <p><em>{beast.size} beast</em></p>
+        <p><em>{beast.size} beast ({sizeSquares(beast.size)} x {sizeSquares(beast.size)}ft.)</em></p>
         <p><strong>Armor Class</strong> {beast.ac}</p>
         <p><strong>Hit Points</strong> {beast.hp}</p>
         {beastForm.renderSpeed()}
@@ -592,14 +619,6 @@ class App extends Component {
         <br/>
         {beastForm.renderActions()}
         {skillTable(beastForm)}
-        <select value={this.state.value} onChange={this.handleChange}>
-          <option value={"cat"}>Cat (0)</option>
-          <option value={"brownBear"}>Brown Bear (1)</option>
-          <option value={"direWolf"}>Dire Wolf (1)</option>
-          <option value={"giantOctopus"}>Giant Octopus (1S)</option>
-          <option value={"giantSpider"}>Giant Spider (1)</option>
-          <option value={"giantToad"}>Giant Toad (1S)</option>
-        </select>
       </div>
     );
   }
