@@ -2,6 +2,39 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+function blackBear() {
+  let beast = new Beast();
+  beast.name = "Black Bear";
+  beast.size = "Medium";
+  beast.ac = 11;
+  beast.hp = 19;
+  beast.speed = 40;
+  beast.climbSpeed = 30;
+  beast.atts.setAtts([15, 10, 14, 2, 12, 7]);
+  beast.skills = [skill.PERCEPTION]
+  let feat = new Action();
+  feat.name = "Keen Smell";
+  feat.desc = "You have advantage on Wisdom (Perception) checks that rely on smell.";
+  beast.addFeature(feat);
+  let atk = new Action();
+  atk.name = "Multiattack"
+  atk.desc = "You make two attacks: one with your bite and one with your claws."
+  beast.addAction(atk);
+  atk = new Attack();
+  atk.name = "Bite";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+3 to hit, reach 5ft., one target.";
+  atk.hitDesc = "1d6 + 2 piercing damage.";
+  beast.addAction(atk);
+  atk = new Attack();
+  atk.name = "Claws";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+3 to hit, reach 5ft., one target.";
+  atk.hitDesc = "2d4 + 2 piercing damage.";
+  beast.addAction(atk);
+  return beast;
+}
+
 function brownBear() {
   let bear = new Beast();
   bear.name = "Brown Bear";
@@ -168,6 +201,127 @@ function giantToad() {
   return beast;
 }
 
+function polarBear() {
+  let beast = new Beast();
+  beast.name = "Polar Bear";
+  beast.size = "Large";
+  beast.ac = 12;
+  beast.hp = 42;
+  beast.speed = 40;
+  beast.swimSpeed = 30;
+  beast.atts.setAtts([20, 10, 16, 2, 13, 7]);
+  beast.skills = [skill.PERCEPTION]
+  let feat = new Action();
+  feat.name = "Keen Smell";
+  feat.desc = "You have advantage on Wisdom (Perception) checks that rely on smell.";
+  beast.addFeature(feat);
+  let atk = new Action();
+  atk.name = "Multiattack"
+  atk.desc = "You make two attacks: one with your bite and one with your claws."
+  beast.addAction(atk);
+  atk = new Attack();
+  atk.name = "Bite";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+7 to hit, reach 5ft., one target.";
+  atk.hitDesc = "1d8 + 5 piercing damage.";
+  beast.addAction(atk);
+  atk = new Attack();
+  atk.name = "Claws";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+7 to hit, reach 5ft., one target.";
+  atk.hitDesc = "2d6 + 5 piercing damage.";
+  beast.addAction(atk);
+  return beast;
+}
+
+function caveBear() {
+  let beast = polarBear();
+  beast.name = "Cave Bear";
+  beast.addSense("darkvision 60ft");
+  return beast;
+}
+
+function giantConstrictor() {
+  let beast = new Beast();
+  beast.name = "Giant Constrictor Snake";
+  beast.size = "Huge";
+  beast.ac = 12;
+  beast.hp = 60;
+  beast.speed = 30;
+  beast.swimSpeed = 30;
+  beast.atts.setAtts([19, 14, 12, 1, 10, 3]);
+  beast.skills = [skill.PERCEPTION]
+  let atk = new Attack();
+  atk.name = "Bite";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+6 to hit, reach 10ft., one creature.";
+  atk.hitDesc = "2d6 + 4 piercing damage.";
+  beast.addAction(atk);
+  atk = new Attack();
+  atk.name = "Constrict";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+6 to hit, reach 5ft., one creature.";
+  atk.hitDesc = "2d8 + 4 bludgeoning damage, and the target is grappled (escape DC 16). Until this grapple ends, the target is restrained, and you can't constrict another target.";
+  beast.addAction(atk);
+  return beast;
+}
+
+function giantElk() {
+  let beast = new Beast();
+  beast.name = "Giant Elk";
+  beast.size = "Huge";
+  beast.ac = 14;
+  beast.hp = 42;
+  beast.speed = 60;
+  beast.atts.setAtts([19, 16, 14, 7, 14, 10]);
+  beast.skills = [skill.PERCEPTION]
+  let feat = new Action();
+  feat.name = "Charge";
+  feat.desc = "If you move at least 20 feet straight towards a target and hit it with a ram attack on the same turn, the target takes an extra 2d6 damage. If the target is a creature, it must succeed on a DC 14 Strength saving throw or be knocked prone.";
+  beast.addFeature(feat);
+  let atk = new Attack();
+  atk.name = "Ram";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+6 to hit, reach 10ft., one target.";
+  atk.hitDesc = "2d6 + 4 bludgeoning damage.";
+  beast.addAction(atk);
+  atk = new Attack();
+  atk.name = "Hooves";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+6 to hit, reach 5ft., one prone creature.";
+  atk.hitDesc = "4d8 + 4 bludgeoning damage.";
+  beast.addAction(atk);
+  return beast;
+}
+
+function hunterShark() {
+  let beast = new Beast();
+  beast.name = "Hunter Shark";
+  beast.size = "Large";
+  beast.ac = 12;
+  beast.hp = 45;
+  beast.speed = 0;
+  beast.swimSpeed = 40;
+  beast.atts.setAtts([18, 13, 15, 1, 10, 4]);
+  beast.skills = [skill.PERCEPTION]
+  beast.addSense("blindsight 30ft.")
+  let feat = new Action();
+  feat.name = "Blood Frenzy";
+  feat.desc = "You have advantage on melee attack rolls against any creature that doesn't have all its hit points.";
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Water Breathing";
+  feat.desc = "You can only breathe underwater.";
+  beast.addFeature(feat);
+  let atk = new Attack();
+  atk.name = "Bite";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+6 to hit, reach 5ft., one target.";
+  atk.hitDesc = "2d8 + 4 piercing damage.";
+  beast.addAction(atk);
+  return beast;
+}
+
 function cat() {
   let beast = new Beast();
   beast.name = "Cat :3c";
@@ -289,7 +443,7 @@ class Character {
     constructor() {
       this.atts = new Attributes;
       this.saves = new Set();
-      this.profBonus = 2;
+      this.profBonus = 3;
       this.skills = new Set();
     }
 
@@ -526,11 +680,17 @@ function skillTable(beastForm) {
 }
 
 var beastFuncs = new Map([
+  ["blackBear", blackBear],
   ["brownBear", brownBear],
   ["direWolf", direWolf],
   ["giantOctopus", giantOctopus],
   ["giantSpider", giantSpider],
   ["giantToad", giantToad],
+  ["caveBear", caveBear],
+  ["giantConstrictor", giantConstrictor],
+  ["polarBear", polarBear],
+  ["giantElk", giantElk],
+  ["hunterShark", hunterShark],
   ["cat", cat]
 ]);
 
@@ -579,11 +739,17 @@ class App extends Component {
       <div className="App">
         <select value={this.state.value} onChange={this.handleChange}>
           <option value={"cat"}>Cat (0)</option>
+          <option value={"blackBear"}>Black Bear (1/2)</option>
           <option value={"brownBear"}>Brown Bear (1)</option>
           <option value={"direWolf"}>Dire Wolf (1)</option>
           <option value={"giantOctopus"}>Giant Octopus (1S)</option>
           <option value={"giantSpider"}>Giant Spider (1)</option>
           <option value={"giantToad"}>Giant Toad (1S)</option>
+          <option value={"caveBear"}>Cave Bear (2)</option>
+          <option value={"giantConstrictor"}>Giant Constrictor Snake (2)</option>
+          <option value={"giantElk"}>Giant Elk (2)</option>
+          <option value={"hunterShark"}>Hunter Shark (2)</option>
+          <option value={"polarBear"}>Polar Bear (2)</option>
         </select>
         <h1>{beast.name}</h1>
         <p><em>{beast.size} beast ({sizeSquares(beast.size)} x {sizeSquares(beast.size)}ft.)</em></p>
