@@ -720,20 +720,83 @@ class App extends Component {
 
     this.state = {
       chr: defaultChar(),
-      value: "brownBear"
+      value: "brownBear",
+      noOfSummons: 0,
+      summonHP: [],
+      summon: "brownBear"
     }
 
     this.handleChange = this.handleChange.bind(this);
+    this.changeNoOfSummons = this.changeNoOfSummons.bind(this);
+    this.changeSummon = this.changeSummon.bind(this);
   }
 
   handleChange(event) {
     this.setState({value: event.target.value});
   }
 
+  changeSummon(event) {
+    let oldSummon = beastFuncs.get(this.state.summon)();
+    let oldMaxHp = oldSummon.hp;
+    let newSummon = beastFuncs.get(event.target.value)();
+    let newMaxHp = newSummon.hp;
+    let summonHPs = this.state.summonHP;
+    let noOfSummons = this.state.noOfSummons;
+    for (var i = 0; i < noOfSummons; i++) {
+      if (summonHPs[i] == oldMaxHp) {
+        summonHPs[i] = newMaxHp;
+      }
+    }
+    this.setState({summon: event.target.value, summonHP: summonHPs});
+  }
+
+  changeNoOfSummons(event) {
+    let num = event.target.value;
+    let summon = beastFuncs.get(this.state.summon)();
+    let summonHPs = [];
+    for (var i = 0; i < num; i++) {
+      summonHPs.push(summon.hp)
+    }
+    this.setState({noOfSummons: num, summonHP: summonHPs})
+  }
+
+  renderSummonHP() {
+    let hps = this.state.summonHP;
+    let summon = beastFuncs.get(this.state.summon)();
+    let name = summon.name;
+    return (
+      <div>
+        {hps.map((item, index) =>
+          <div>
+          <h3>{name} {index + 1}: {item} hp</h3>
+          <button onClick={() => this.adjustSummonHP(index, -1)}>-1</button>
+          <button onClick={() => this.adjustSummonHP(index, -5)}>-5</button>
+          <button onClick={() => this.adjustSummonHP(index, -10)}>-10</button>
+          <button onClick={() => this.resetSummonHP(index)}>Reset</button>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  adjustSummonHP(index, hp) {
+    let summonHPs = this.state.summonHP;
+    summonHPs[index] += hp;
+    this.setState({summonHP: summonHPs});
+  }
+
+  resetSummonHP(index) {
+    let summonHPs = this.state.summonHP;
+    let summon = beastFuncs.get(this.state.summon)();
+    summonHPs[index] = summon.hp;
+    this.setState({summonHP: summonHPs});
+  }
+
   render() {
     let chr = this.state.chr;
     let beast = beastFuncs.get(this.state.value)();
     let beastForm = new BeastForm(chr, beast);
+    let summon = beastFuncs.get(this.state.summon)();
 
     return (
       <div className="App">
@@ -782,9 +845,52 @@ class App extends Component {
         </table>
         {beastForm.renderSenses()}
         {beastForm.renderFeatures()}
-        <br/>
+        <hr/>
         {beastForm.renderActions()}
         {skillTable(beastForm)}
+        <h1>Conjure Animals</h1>
+        <select value={this.state.noOfSummons} onChange={this.changeNoOfSummons}>
+          <option value={0}>-</option>
+          <option value={1}>1 beast (CR 2)</option>
+          <option value={2}>2 beasts (CR 1)</option>
+          <option value={4}>4 beasts (CR 1/2)</option>
+          <option value={8}>8 beasts (CR 1/4)</option>
+        </select>
+        <select value={this.state.summon} onChange={this.changeSummon}>
+          <option value={"cat"}>Cat (0)</option>
+          <option value={"blackBear"}>Black Bear (1/2)</option>
+          <option value={"brownBear"}>Brown Bear (1)</option>
+          <option value={"direWolf"}>Dire Wolf (1)</option>
+          <option value={"giantOctopus"}>Giant Octopus (1S)</option>
+          <option value={"giantSpider"}>Giant Spider (1)</option>
+          <option value={"giantToad"}>Giant Toad (1S)</option>
+          <option value={"caveBear"}>Cave Bear (2)</option>
+          <option value={"giantConstrictor"}>Giant Constrictor Snake (2)</option>
+          <option value={"giantElk"}>Giant Elk (2)</option>
+          <option value={"hunterShark"}>Hunter Shark (2)</option>
+          <option value={"polarBear"}>Polar Bear (2)</option>
+        </select>
+        {this.renderSummonHP()}
+        <p><em>{beast.size} beast ({sizeSquares(beast.size)} x {sizeSquares(beast.size)}ft.)</em></p>
+        <p><strong>Armor Class</strong> {beast.ac}</p>
+        <p><strong>Max Hit Points</strong> {beast.hp}</p>
+        {beastForm.renderSpeed()}
+        <table class="center">
+          <tr>
+            <th>STR</th>
+            <th>DEX</th>
+            <th>CON</th>
+            <th>INT</th>
+            <th>WIS</th>
+            <th>CHA</th>
+          </tr>
+          {attrTable(x => summon.atts.getAtt(x))}
+          {attrTable(x => summon.atts.getBonus(x))}
+        </table>
+        {beastForm.renderSenses()}
+        {beastForm.renderFeatures()}
+        <hr/>
+        {beastForm.renderActions()}
       </div>
     );
   }
