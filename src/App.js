@@ -322,6 +322,39 @@ function hunterShark() {
   return beast;
 }
 
+function saberToothedTiger() {
+  let beast = new Beast();
+  beast.name = "Saber-Toothed Tiger";
+  beast.size = "Large";
+  beast.ac = 12;
+  beast.hp = 52;
+  beast.speed = 40;
+  beast.atts.setAtts([18, 14, 15, 3, 12, 8]);
+  beast.skills = [skill.PERCEPTION, skill.STEALTH]
+  beast.expertise = [skill.STEALTH]
+  let feat = new Action();
+  feat.name = "Keen Smell";
+  feat.desc = "You have advantage on Wisdom (Perception) checks that rely on smell.";
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Pounce";
+  feat.desc = "If you move at least 20 feet straight toward a target creature and then hit it with a claw attack on the same turn, that target must succeed on a DC 14 Strength saving through or be knocked prone. If the target is prone, you can make one bite attack against it as a bonus action."
+  beast.addFeature(feat);
+  let atk = new Attack();
+  atk.name = "Bite";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+6 to hit, reach 5ft., one target.";
+  atk.hitDesc = "1d10 + 5 piercing damage.";
+  beast.addAction(atk);
+  atk = new Attack();
+  atk.name = "Claw";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+6 to hit, reach 5ft., one target.";
+  atk.hitDesc = "2d6 + 5 slashing damage."
+  beast.addAction(atk);
+  return beast;
+}
+
 function cat() {
   let beast = new Beast();
   beast.name = "Cat :3c";
@@ -345,6 +378,22 @@ function cat() {
   return beast;
 }
 
+function deer() {
+  let beast = new Beast();
+  beast.name = "Deer";
+  beast.size = "Medium";
+  beast.ac = 13;
+  beast.hp = 4;
+  beast.speed = 50;
+  beast.atts.setAtts([11, 16, 11, 2, 14, 5]);
+  let atk = new Attack();
+  atk.name = "Bite";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+2 to hit, reach 5ft., one target.";
+  atk.hitDesc = "1d4 piercing damage.";
+  beast.addAction(atk);
+  return beast;
+}
 
 const att = {
   STR: "STR",
@@ -459,6 +508,7 @@ class Beast {
     this.atts = new Attributes();
     this.saves = [];
     this.skills = [];
+    this.expertise = [];
     this.hp = 10;
     this.ac = 10;
     this.profBonus = 2;
@@ -501,6 +551,9 @@ class Beast {
     let prof = 0;
     if (this.skills.includes(skillIn)) {
       prof = this.profBonus;
+    }
+    if (this.expertise.includes(skillIn)) {
+      prof = this.profBonus * 2;
     }
     return val + prof;
   }
@@ -613,6 +666,9 @@ class BeastForm {
     if (this.beast.skills.includes(skillIn)) {
       prof = Math.max(this.beast.profBonus, prof);
     }
+    if (this.beast.expertise.includes(skillIn)) {
+      prof = Math.max(this.beast.profBonus * 2, prof);
+    }
     return val + prof;
   }
 
@@ -724,7 +780,9 @@ var beastFuncs = new Map([
   ["polarBear", polarBear],
   ["giantElk", giantElk],
   ["hunterShark", hunterShark],
-  ["cat", cat]
+  ["saberToothedTiger", saberToothedTiger],
+  ["cat", cat],
+  ["deer", deer]
 ]);
 
 function sizeSquares(sizeClass) {
@@ -835,6 +893,7 @@ class App extends Component {
       <div className="App">
         <select value={this.state.value} onChange={this.handleChange}>
           <option value={"cat"}>Cat (0)</option>
+          <option value={"deer"}>Deer (0)</option>
           <option value={"blackBear"}>Black Bear (1/2)</option>
           <option value={"brownBear"}>Brown Bear (1)</option>
           <option value={"direWolf"}>Dire Wolf (1)</option>
@@ -846,6 +905,7 @@ class App extends Component {
           <option value={"giantElk"}>Giant Elk (2)</option>
           <option value={"hunterShark"}>Hunter Shark (2)</option>
           <option value={"polarBear"}>Polar Bear (2)</option>
+          <option value={"saberToothedTiger"}>Saber-Toothed Tiger (2)</option>
         </select>
         <h1>{beast.name}</h1>
         <p><em>{beast.size} beast ({sizeSquares(beast.size)} x {sizeSquares(beast.size)}ft.)</em></p>
@@ -901,6 +961,7 @@ class App extends Component {
           <option value={"giantElk"}>Giant Elk (2)</option>
           <option value={"hunterShark"}>Hunter Shark (2)</option>
           <option value={"polarBear"}>Polar Bear (2)</option>
+          <option value={"saberToothedTiger"}>Saber-Toothed Tiger (2)</option>
         </select>
         {this.renderSummonHP()}
         <p><em>{beast.size} beast ({sizeSquares(beast.size)} x {sizeSquares(beast.size)}ft.)</em></p>
