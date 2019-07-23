@@ -822,7 +822,7 @@ function skillTable(beastForm) {
         <tr>
           <th>{entry[1]}</th>
           <td>{skillAtt(entry[1])}</td>
-          <td>{beastForm.getSkill(entry[1])}</td>
+          <td>{renderBonus(beastForm.getSkill(entry[1]))}</td>
           <th>{beastForm.getSkillSymbol(entry[1])}</th>
         </tr>
       ))}
@@ -864,6 +864,14 @@ function sizeSquares(sizeClass) {
       return 20;
     default:
       return 0;
+  }
+}
+
+function renderBonus(number) {
+  if (number > 0) {
+    return "+" + number;
+  } else {
+    return "" + number;
   }
 }
 
@@ -986,7 +994,7 @@ class App extends Component {
             <th>CHA</th>
           </tr>
           {attrTable(x => beastForm.getAtt(x))}
-          {attrTable(x => beastForm.getBonus(x))}
+          {attrTable(x => renderBonus(beastForm.getBonus(x)))}
         </table>
         <p>Saves</p>
         <table class="center">
@@ -998,7 +1006,7 @@ class App extends Component {
           <th>WIS</th>
           <th>CHA</th>
         </tr>
-          {attrTable(x => beastForm.getSave(x))}
+        {attrTable(x => renderBonus(beastForm.getSave(x)))}
         </table>
         {beastForm.renderSenses()}
         {beast.renderFeatures()}
@@ -1042,7 +1050,7 @@ class App extends Component {
             <th>CHA</th>
           </tr>
           {attrTable(x => summon.atts.getAtt(x))}
-          {attrTable(x => summon.atts.getBonus(x))}
+          {attrTable(x => renderBonus(summon.atts.getBonus(x)))}
         </table>
         {summon.renderSenses()}
         {summon.renderFeatures()}
