@@ -2,6 +2,32 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+function wolf() {
+  let beast = new Beast();
+  beast.name = "Wolf";
+  beast.size = "Medium";
+  beast.ac = 13;
+  beast.hp = 11;
+  beast.speed = 40;
+  beast.atts.setAtts([12, 15, 12, 3, 12, 6]);
+  beast.skills = [skill.PERCEPTION, skill.STEALTH]
+  let feat = new Action();
+  feat.name = "Keen Hearing and Smell";
+  feat.desc = "You have advantage on Wisdom (Perception) checks that rely on hearing or smell.";
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Pack tactics";
+  feat.desc = "You have advantage on attack rolls against a creature if at least one of your allies is in within 5 feet of the creature and isn't incapacitated";
+  beast.addFeature(feat);
+  let atk = new Attack();
+  atk.name = "Bite";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+4 to hit, reach 5ft., one target.";
+  atk.hitDesc = "2d4 + 2 piercing damage. If the target is a creature, it must succeed on a DC 11 Strength saving throw or be knocked prone.";
+  beast.addAction(atk);
+  return beast;
+}
+
 function blackBear() {
   let beast = new Beast();
   beast.name = "Black Bear";
@@ -845,7 +871,8 @@ var beastFuncs = new Map([
   ["saberToothedTiger", saberToothedTiger],
   ["cat", cat],
   ["deer", deer],
-  ["ridingHorse", ridingHorse]
+  ["ridingHorse", ridingHorse],
+  ["wolf", wolf]
 ]);
 
 function sizeSquares(sizeClass) {
@@ -966,6 +993,7 @@ class App extends Component {
           <option value={"cat"}>Cat (0)</option>
           <option value={"deer"}>Deer (0)</option>
           <option value={"ridingHorse"}>Riding Horse (1/4)</option>
+          <option value={"wolf"}>Wolf (1/4)</option>
           <option value={"blackBear"}>Black Bear (1/2)</option>
           <option value={"brownBear"}>Brown Bear (1)</option>
           <option value={"direWolf"}>Dire Wolf (1)</option>
@@ -1022,6 +1050,7 @@ class App extends Component {
           <option value={8}>8 beasts (CR 1/4)</option>
         </select>
         <select value={this.state.summon} onChange={this.changeSummon}>
+          <option value={"wolf"}>Wolf (1/4)</option>
           <option value={"blackBear"}>Black Bear (1/2)</option>
           <option value={"brownBear"}>Brown Bear (1)</option>
           <option value={"direWolf"}>Dire Wolf (1)</option>
