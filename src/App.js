@@ -395,6 +395,23 @@ function deer() {
   return beast;
 }
 
+function ridingHorse() {
+  let beast = new Beast();
+  beast.name = "Riding Horse";
+  beast.size = "Large";
+  beast.ac = 10;
+  beast.hp = 13;
+  beast.speed = 60;
+  beast.atts.setAtts([16, 10, 12, 2, 11, 7]);
+  let atk = new Attack();
+  atk.name = "Hooves";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+2 to hit, reach 5ft., one target.";
+  atk.hitDesc = "2d4 + 3 piercing damage.";
+  beast.addAction(atk);
+  return beast;
+}
+
 const att = {
   STR: "STR",
   DEX: "DEX",
@@ -827,7 +844,8 @@ var beastFuncs = new Map([
   ["hunterShark", hunterShark],
   ["saberToothedTiger", saberToothedTiger],
   ["cat", cat],
-  ["deer", deer]
+  ["deer", deer],
+  ["ridingHorse", ridingHorse]
 ]);
 
 function sizeSquares(sizeClass) {
@@ -939,6 +957,7 @@ class App extends Component {
         <select value={this.state.value} onChange={this.handleChange}>
           <option value={"cat"}>Cat (0)</option>
           <option value={"deer"}>Deer (0)</option>
+          <option value={"ridingHorse"}>Riding Horse (1/4)</option>
           <option value={"blackBear"}>Black Bear (1/2)</option>
           <option value={"brownBear"}>Brown Bear (1)</option>
           <option value={"direWolf"}>Dire Wolf (1)</option>
