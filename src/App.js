@@ -102,9 +102,9 @@ function giantOctopus() {
   beast.speed = 10;
   beast.swimSpeed = 60;
   beast.atts.setAtts([17, 13, 13, 4, 10, 4]);
-  beast.skills = [skill.PERCEPTION, skill.STEALTH]
-  beast.profBonus = 4;
-  beast.addSense("darkvision 60ft.")
+  beast.skills = [skill.PERCEPTION, skill.STEALTH];
+  beast.expertise = [skill.PERCEPTION, skill.STEALTH];
+  beast.addSense("darkvision 60ft.");
   let feat = new Action();
   feat.name = "Hold Breath";
   feat.desc = "While out of water, you can hold your breath for 1 hour.";
@@ -672,6 +672,50 @@ class BeastForm {
     return val + prof;
   }
 
+  getSkillSymbol(skillIn) {
+    let char = false;
+    let beast = false;
+    let beastExp = false;
+    let redundant = false;
+    let prof = 0;
+    if (this.character.skills.has(skillIn)) {
+      prof = this.character.profBonus;
+      char = true;
+    }
+    if (this.beast.skills.includes(skillIn)) {
+      if (this.beast.profBonus > prof) {
+        beast = true;
+        prof = this.beast.profBonus;
+      }
+      else {
+        redundant = true;
+      }
+    }
+    if (this.beast.expertise.includes(skillIn)) {
+      if (this.beast.profBonus * 2 > prof) {
+        beastExp = true;
+        redundant = false;
+        prof = this.beast.profBonus;
+      }
+      else {
+        redundant = true;
+      }
+    }
+    if (redundant) {
+      return (<ion-icon name="refresh-circle"></ion-icon>);
+    }
+    if (beastExp) {
+      return (<ion-icon name="add-circle"></ion-icon>);
+    }
+    if (beast) {
+      return (<ion-icon name="add-circle-outline"></ion-icon>);
+    }
+    if (char) {
+      return (<ion-icon name="radio-button-on"></ion-icon>);
+    }
+    return (<ion-icon name="radio-button-off"></ion-icon>);
+  }
+
   renderSenses() {
     return (
       <div>
@@ -762,6 +806,7 @@ function skillTable(beastForm) {
           <th>{entry[1]}</th>
           <td>{skillAtt(entry[1])}</td>
           <td>{beastForm.getSkill(entry[1])}</td>
+          <th>{beastForm.getSkillSymbol(entry[1])}</th>
         </tr>
       ))}
     </table>
