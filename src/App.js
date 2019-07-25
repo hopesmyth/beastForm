@@ -547,6 +547,7 @@ class Character {
 class Beast {
   constructor() {
     this.name = "";
+    this.cr = 0;
     this.size = "Medium";
     this.atts = new Attributes();
     this.saves = [];
@@ -562,6 +563,29 @@ class Beast {
     this.swimSpeed = 0;
     this.senses = [];
     this.features = [];
+  }
+
+  load(json) {
+    let input = JSON.parse(json);
+    console.log(input);
+    this.name = input.name;
+    this.size = input.size;
+    let atts = new Attributes();
+    atts.atts = input.atts.atts;
+    this.atts = atts;
+    this.saves = input.saves;
+    this.skills = input.skills;
+    this.expertise = input.expertise;
+    this.hp = input.hp;
+    this.ac = input.ac;
+    this.profBonus = input.profBonus;
+    this.actions = input.actions;
+    this.speed = input.speed;
+    this.climbSpeed = input.climbSpeed;
+    this.flySpeed = input.flySpeed;
+    this.swimSpeed = input.swimSpeed;
+    this.senses = input.senses;
+    this.features = input.features;
   }
 
   addAction(action) {
@@ -605,7 +629,17 @@ class Beast {
     return (
       <div>
         {this.actions.map(item =>
-          <div>{item.render()}</div>
+          //<div>{item.render()}</div>
+          <div>{'type' in item ?
+            <div>
+              <p><strong>{item.name}.</strong> <em>{item.type}:</em> {item.desc}<br/>
+              <em>Hit:</em> {item.hitDesc}</p>
+            </div>
+            :
+            <div>
+              <p><strong>{item.name}.</strong> {item.desc}</p>
+            </div>}
+          </div>
         )}
       </div>
     );
@@ -615,7 +649,8 @@ class Beast {
     return (
       <div>
         {this.features.map(item =>
-          <div>{item.render()}</div>
+          //<div>{item.render()}</div>
+          <div><p>feature</p></div>
         )}
       </div>
     );
@@ -986,6 +1021,13 @@ class App extends Component {
     let beast = beastFuncs.get(this.state.value)();
     let beastForm = new BeastForm(chr, beast);
     let summon = beastFuncs.get(this.state.summon)();
+
+    /*
+    let str = JSON.stringify(brownBear());
+    beast = new Beast();
+    beast.load(str);
+    beastForm = new BeastForm(chr, beast);
+    */
 
     return (
       <div className="App">
