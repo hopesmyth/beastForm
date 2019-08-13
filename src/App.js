@@ -442,6 +442,7 @@ function dryad() {
   let beast = new Beast();
   beast.name = "Dryad";
   beast.size = "Medium";
+  beast.type = "fey";
   beast.ac = 11;
   beast.hp = 22;
   beast.speed = 30;
@@ -475,6 +476,90 @@ function dryad() {
   action.name = "Fey Charm";
   action.desc = "The dryad targets one humanoid or beast that she can see within 30 feet of her. If the target can see the dryad, it must succeed on a DC 14 Wisdom saving throw or be magically charmed. The charmed creature regards the dryad as a trusted friend to be heeded and protected. Although the target isn't under the dryad's control, it takes the dryad's requests or actions in the most favorable way it can . Each time the dryad or its allies do anything harmful to the target, it can repeat the saving throw, ending the effect on itself on a success. Otherwise, the effect lasts 24 hours or until the dryad dies, is on a different plane of existence from the target, or ends the effect as a bonus action. If a target 's saving throw is successful, the target is immune to the dryad's Fey Charm for the next 24 hours. The dryad can have no more than one humanoid and up to three beasts charmed at a time.";
   beast.addAction(action);
+  return beast;
+}
+
+function nereid() {
+  let beast = new Beast();
+  beast.name = "Nereid";
+  beast.size = "Medium";
+  beast.type = "fey";
+  beast.ac = 13;
+  beast.hp = 44;
+  beast.speed = 30;
+  beast.swimSpeed = 60;
+  beast.atts.setAtts([10, 17, 12, 13, 14, 16]);
+  beast.addSense("darkvision 60ft.");
+  let feat = new Action();
+  feat.name = "Amphibious";
+  feat.desc = "The nereid can breathe air and water.";
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Aquatic Invisibility";
+  feat.desc = "If immersed in water, the nereid can make itself invisible as a bonus action. It remains invisible until it leaves the water, ends the invisibility as a bonus action, or dies.";
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Mantle Dependent";
+  feat.desc = "The nereid wears a mantle of silky cloth the color of sea foam, which holds the creature’s spirit. The mantle has an AC and hit points equal to that of the nereid, but the garment can’t be directly harmed while the nereid wears it. If the mantle is destroyed, the nereid becomes poisoned and dies within 1 hour. A nereid is willing to do anything in its power to recover the mantle if it is stolen, including serving the thief.";
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Shape Water";
+  feat.desc = "The nereid can cast control water at will, requiring no components. Its spellcasting ability for it is Charisma. This use of the spell has a range of 30 feet and can affect a cube of water no larger than 30 feet on a side.";
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Speak with Animals";
+  feat.desc = " The nereid can comprehend and verbally communicate with beasts.";
+  beast.addFeature(feat);
+  feat = new Action();
+  let atk = new Attack();
+  atk.name = "Blinding Acid";
+  atk.type = "Melee or Ranged Spell Attack";
+  atk.desc = "+5 to hit, reach 5ft. or rancge 30ft, one target.";
+  atk.hitDesc = "2d12+3 acid damage, and the target is blinded until the start of the nereid's enxt turn.";
+  beast.addAction(atk);
+  let action = new Action();
+  action.name = "Drowning Kiss (Recharge 5-6)";
+  action.desc = "The nereid touches one creature it can see within 5 feet of it. The target must succeed on a DC 13 Constitution saving throw or take 22 (3d12 + 3) acid damage. On a failure, it also runs out of breath and can’t speak for 1 minute. At the end of each of its turns, it can repeat the save, ending the effect on itself on a success.";
+  beast.addAction(action);
+  action = new Action();
+  action.name = "Water Lash";
+  action.desc = "The nereid causes a 5-foot cube of water within 60 feet of it to take a shape of its choice and strike one target it can see within 5 feet of that water. The target must make a DC 13 Strength saving throw. On a failed save, it takes 17 (4d6 + 3) bludgeoning damage, and ifit is a Large or smaller creature, it is pushed up to 15 feet in a straight line or is knocked prone (nereid’s choice). On a successful save, the target takes half as much damage and isn’t pushed or knocked prone.";
+  beast.addAction(action);
+  return beast;
+}
+
+function satyr() {
+  let beast = new Beast();
+  beast.name = "Satyr";
+  beast.size = "Medium";
+  beast.type = "fey";
+  beast.ac = 14;
+  beast.hp = 31;
+  beast.speed = 40;
+  beast.atts.setAtts([12, 16, 11, 12, 10, 14]);
+  beast.skills = [skill.PERCEPTION, skill.PERFORMANCE, skill.STEALTH]
+  let feat = new Action();
+  feat.name = "Magic Resistance";
+  feat.desc = "The satyr has advantage on saving throws against spells and other magical effects.";
+  beast.addFeature(feat);
+  let atk = new Attack();
+  atk.name = "Ram";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+3 to hit, reach 5ft., one target.";
+  atk.hitDesc = "2d4+1 bludgeoning damage.";
+  beast.addAction(atk);
+  atk = new Attack();
+  atk.name = "Shortsword";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+5 to hit, reach 5ft., one target.";
+  atk.hitDesc = "1d6 + 3 piercing damage.";
+  beast.addAction(atk);
+  atk = new Attack();
+  atk.name = "Shortbow";
+  atk.type = "Ranged Weapon Attack";
+  atk.desc = "+5 to hit, range 80/320 ft., one target.";
+  atk.hitDesc = "1d6 + 3 piercing damage.";
+  beast.addAction(atk);
   return beast;
 }
 
@@ -950,7 +1035,9 @@ var beastFuncs = new Map([
   ["deer", deer],
   ["ridingHorse", ridingHorse],
   ["wolf", wolf],
-  ["dryad", dryad]
+  ["dryad", dryad],
+  ["nereid", nereid],
+  ["satyr", satyr]
 ]);
 
 function sizeSquares(sizeClass) {
@@ -1148,7 +1235,9 @@ class App extends Component {
           <option value={"hunterShark"}>Hunter Shark (2)</option>
           <option value={"polarBear"}>Polar Bear (2)</option>
           <option value={"saberToothedTiger"}>Saber-Toothed Tiger (2)</option>
+          <option value={"satyr"}>Satyr (1/2, Fey)</option>
           <option value={"dryad"}>Dryad (1, Fey)</option>
+          <option value={"nereid"}>Nereid (2, Fey)</option>
         </select>
         {this.renderSummonHP()}
         <p><em>{summon.size} {summon.type} ({sizeSquares(summon.size)} x {sizeSquares(summon.size)}ft.)</em></p>
