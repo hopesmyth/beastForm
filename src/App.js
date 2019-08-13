@@ -438,6 +438,46 @@ function ridingHorse() {
   return beast;
 }
 
+function dryad() {
+  let beast = new Beast();
+  beast.name = "Dryad";
+  beast.size = "Medium";
+  beast.ac = 11;
+  beast.hp = 22;
+  beast.speed = 30;
+  beast.atts.setAtts([10, 12, 11, 14, 15, 18]);
+  beast.addSense("darkvision 60ft.");
+  beast.skills = [skill.PERCEPTION, skill.STEALTH];
+  beast.expertise = [skill.STEALTH];
+  let feat = new Action();
+  feat.name = "Innate Spellcasting";
+  feat.desc = "The dryad's innate spellcasting ability is Charisma (spell save DC 14). The dryad can innately cast the following spells, requiring no material components: At will: druidcraft; 3/day each: entangle, goodberry; 1/day each: barkskin, pass without trace, shillelagh";
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Magic Resistance";
+  feat.desc = "The dryad has advantage on saving throws against spells and other magical effects.";
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Speak with Beasts and Plants";
+  feat.desc = "The dryad can communicate with beasts and plants as if they shared a language.";
+  beast.addFeature(feat);
+  feat = new Action();
+  feat.name = "Tree Stride";
+  feat.desc = "Once on her turn, the dryad can use 10 feet of her movement to step magically into one living tree within her reach and emerge from a second living tree within 60 feet of the first tree, appearing in an unoccupied space within 5 feet of the second tree. Both trees must be large or bigger.";
+  beast.addFeature(feat);
+  let atk = new Attack();
+  atk.name = "Club";
+  atk.type = "Melee Weapon Attack";
+  atk.desc = "+2 to hit (+6 to hit with shillelagh), reach 5ft., one target.";
+  atk.hitDesc = "1d4 bludgeoning damage, or 1d8+4 bludgeoning damage with shillelagh.";
+  beast.addAction(atk);
+  let action = new Action();
+  action.name = "Fey Charm";
+  action.desc = "The dryad targets one humanoid or beast that she can see within 30 feet of her. If the target can see the dryad, it must succeed on a DC 14 Wisdom saving throw or be magically charmed. The charmed creature regards the dryad as a trusted friend to be heeded and protected. Although the target isn't under the dryad's control, it takes the dryad's requests or actions in the most favorable way it can . Each time the dryad or its allies do anything harmful to the target, it can repeat the saving throw, ending the effect on itself on a success. Otherwise, the effect lasts 24 hours or until the dryad dies, is on a different plane of existence from the target, or ends the effect as a bonus action. If a target 's saving throw is successful, the target is immune to the dryad's Fey Charm for the next 24 hours. The dryad can have no more than one humanoid and up to three beasts charmed at a time.";
+  beast.addAction(action);
+  return beast;
+}
+
 const att = {
   STR: "STR",
   DEX: "DEX",
@@ -549,6 +589,7 @@ class Beast {
     this.name = "";
     this.cr = 0;
     this.size = "Medium";
+    this.type = "Beast";
     this.atts = new Attributes();
     this.saves = [];
     this.skills = [];
@@ -570,6 +611,7 @@ class Beast {
     console.log(input);
     this.name = input.name;
     this.size = input.size;
+    this.type = input.type;
     let atts = new Attributes();
     atts.atts = input.atts.atts;
     this.atts = atts;
@@ -650,7 +692,7 @@ class Beast {
       <div>
         {this.features.map(item =>
           //<div>{item.render()}</div>
-          <div><p>feature</p></div>
+          <div><p>{item.render()}</p></div>
         )}
       </div>
     );
@@ -907,7 +949,8 @@ var beastFuncs = new Map([
   ["cat", cat],
   ["deer", deer],
   ["ridingHorse", ridingHorse],
-  ["wolf", wolf]
+  ["wolf", wolf],
+  ["dryad", dryad]
 ]);
 
 function sizeSquares(sizeClass) {
@@ -1050,7 +1093,7 @@ class App extends Component {
           <option value={"saberToothedTiger"}>Saber-Toothed Tiger (2)</option>
         </select>
         <h1>{beast.name}</h1>
-        <p><em>{beast.size} beast ({sizeSquares(beast.size)} x {sizeSquares(beast.size)}ft.)</em></p>
+        <p><em>{beast.size} {beast.type} ({sizeSquares(beast.size)} x {sizeSquares(beast.size)}ft.)</em></p>
         <p><strong>Armor Class</strong> {beast.ac}</p>
         <p><strong>Hit Points</strong> {beast.hp}</p>
         {beast.renderSpeed()}
@@ -1105,11 +1148,12 @@ class App extends Component {
           <option value={"hunterShark"}>Hunter Shark (2)</option>
           <option value={"polarBear"}>Polar Bear (2)</option>
           <option value={"saberToothedTiger"}>Saber-Toothed Tiger (2)</option>
+          <option value={"dryad"}>Dryad (1, Fey)</option>
         </select>
         {this.renderSummonHP()}
-        <p><em>{beast.size} beast ({sizeSquares(beast.size)} x {sizeSquares(beast.size)}ft.)</em></p>
-        <p><strong>Armor Class</strong> {beast.ac}</p>
-        <p><strong>Max Hit Points</strong> {beast.hp}</p>
+        <p><em>{summon.size} {summon.type} ({sizeSquares(summon.size)} x {sizeSquares(summon.size)}ft.)</em></p>
+        <p><strong>Armor Class</strong> {summon.ac}</p>
+        <p><strong>Max Hit Points</strong> {summon.hp}</p>
         {summon.renderSpeed()}
         <table class="center">
           <tr>
