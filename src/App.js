@@ -1161,6 +1161,7 @@ class App extends Component {
 
     return (
       <div className="App">
+        <h1>BeastForm</h1>
         <select value={this.state.value} onChange={this.handleChange}>
           <option value={"cat"}>Cat (0)</option>
           <option value={"deer"}>Deer (0)</option>
