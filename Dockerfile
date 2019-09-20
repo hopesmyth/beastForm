@@ -1,19 +1,11 @@
-FROM node
-
-# Create app directory
-WORKDIR /usr/src/beastform
-
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND
-# package-lock.json are copied where available (npm@5+)
-COPY package*.json ./
-
-RUN npm update
-RUN npm install
-
-# Bundle app source
+FROM mhart/alpine-node:11 AS builder
+WORKDIR /src
 COPY . .
+RUN npm install
+RUN yarn run build
 
-EXPOSE 3000
-
-CMD ["npm", "start"]
+FROM mhart/alpine-node
+RUN yarn global add serve
+WORKDIR /src
+COPY --from=builder /src/build .
+CMD ["serve", "-p", "80", "-s", "."]
