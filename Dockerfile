@@ -1,7 +1,7 @@
 FROM mhart/alpine-node:11 AS builder
 WORKDIR /src
 COPY . .
-RUN npm install create-react-app --global
+RUN npm install
 RUN yarn run build
 
 FROM mhart/alpine-node
