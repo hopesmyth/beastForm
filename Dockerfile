@@ -8,6 +8,7 @@ WORKDIR /usr/src/beastform
 # package-lock.json are copied where available (npm@5+)
 COPY package*.json ./
 
+RUN npm update
 RUN npm install
 
 # Bundle app source
