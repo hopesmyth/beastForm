@@ -1,5 +1,5 @@
-import {defaultBeast, defaultSaves} from "../statBlocks/defaults";
-import {attributeNames} from "./constants";
+import {defaultBeast, defaultSaves, defaultSkills} from "../statBlocks/defaults";
+import {attributeNames, skillAttributes, skillNames} from "./constants";
 import getStatBonus from "./getStatBonus";
 
 const combineAttributes = ({ beast, character }) => {
@@ -40,16 +40,49 @@ const combineSaves = ({ beast, character, attributes }) => {
   return combined;
 };
 
+const combineSkills = ({ beast, character, attributes }) => {
+  const beastProf = beast.profBonus;
+  const beastSkills = beast.skills;
+  const beastExpertise = beast.expertise;
+  const charProf = character.profBonus;
+  const charSkills = character.skills;
+  const charExpertise = character.expertise;
+
+  const combined = {...defaultSkills};
+
+  skillNames.forEach(skill => {
+    let skillBonus = 0;
+    if (beastSkills.includes(skill)) {
+      skillBonus = beastProf;
+    }
+    if (beastExpertise.includes(skill)) {
+      skillBonus = beastProf * 2;
+    }
+    if (charSkills.includes(skill)) {
+      skillBonus = Math.max(skillBonus, charProf);
+    }
+    if (charExpertise.includes(skill)) {
+      skillBonus = Math.max(skillBonus, charProf * 2)
+    }
+    let baseScore = getStatBonus(attributes[skillAttributes[skill]]);
+    combined[skill] = baseScore + skillBonus;
+  });
+
+  return combined;
+};
+
 const generateBeastForm = ({ beast: _beast, character }) => {
   const beast = {...defaultBeast, ..._beast};
 
   const attributes = combineAttributes({ beast, character });
   const saves = combineSaves({ beast, character, attributes });
+  const skills = combineSkills({ beast, character, attributes });
 
   return {
     ...beast,
     attributes,
     saves,
+    skills,
   }
 };
 

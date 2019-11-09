@@ -10,6 +10,7 @@ const defaultCharacter = {
   },
   saves: ['con', 'wis', 'int'],
   skills: ['athletics', 'insight', 'nature', 'perception', 'survival'],
+  expertise: [],
 };
 
 export default defaultCharacter;
