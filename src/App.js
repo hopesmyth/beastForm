@@ -4,6 +4,7 @@ import statBlocks from "./statBlocks/statBlocks";
 import CreatureSelect from "./components/CreatureSelect";
 import defaultCharacter from "./utils/defaultCharacter";
 import generateBeastForm from "./utils/generateBeastForm";
+import StatBlock from "./components/StatBlock";
 
 
 class App extends React.Component {
@@ -11,17 +12,10 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      loading: true,
       selectedBeast: 'brownBear',
       wildShapes: this.getWildShapes(),
       character: defaultCharacter,
-      beastForm: {},
     };
-  }
-
-  componentDidMount() {
-    this.refreshBeastForm();
-    this.setState({ loading: false });
   }
 
   getWildShapes = () => {
@@ -37,27 +31,20 @@ class App extends React.Component {
 
   selectWildShape = (index) => {
     this.setState({ selectedBeast: index });
-    this.refreshBeastForm();
-  };
-
-  refreshBeastForm = () => {
-    const { selectedBeast, character } = this.state;
-    const beastForm = generateBeastForm({ beast: statBlocks[selectedBeast], character });
-    this.setState({ beastForm });
   };
 
   render() {
-    const { loading, selectedBeast, wildShapes, beastForm } = this.state;
+    const { selectedBeast, wildShapes, character } = this.state;
+
+    const beastForm = generateBeastForm({ beast: statBlocks[selectedBeast], character });
 
     console.log(beastForm);
-
-    if (loading) return (<></>);
 
     return (
       <div className="App">
         <h1>beastForm</h1>
         <CreatureSelect creatures={wildShapes} selected={selectedBeast} selectFunc={this.selectWildShape}/>
-        <h1>{beastForm.name}</h1>
+        <StatBlock stats={beastForm}/>
       </div>
     )
   }
