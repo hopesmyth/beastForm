@@ -16,12 +16,11 @@ export const capitalise = (string) => {
 };
 
 export const renderBonus = ( bonus ) => {
-  switch (bonus) {
-    case bonus > 0:
-      return `+${bonus}`;
-    case bonus < 0:
-      return `-${bonus}`;
-    default:
-      return `${bonus}`;
+  if (bonus > 0) {
+    return `+${bonus}`;
+  } else if (bonus < 0) {
+    return `-${bonus}`;
+  } else {
+    return `${bonus}`;
   }
 };

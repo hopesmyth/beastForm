@@ -2,6 +2,7 @@ import React from 'react';
 import DescriptionLine from "./subcomponents/DescriptionLine";
 import Speeds from "./subcomponents/Speeds";
 import AttributesTable from "./subcomponents/AttributesTable";
+import SavesTable from "./subcomponents/SavesTable";
 
 class StatBlock extends React.Component {
 
@@ -15,7 +16,9 @@ class StatBlock extends React.Component {
        <p><strong>Armor Class</strong> {stats.ac}</p>
        <p><strong>Hit Points</strong> {stats.hp}</p>
        <Speeds stats={stats}/>
-       <AttributesTable attributeRows={[stats.attributes]}/>
+       <AttributesTable attributes={stats.attributes}/>
+       <h3>Saving Throws</h3>
+       <SavesTable saves={stats.saves}/>
      </div>
     )
   }

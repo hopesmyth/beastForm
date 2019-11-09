@@ -1,20 +1,11 @@
 import React from 'react';
-
-const AttributeRow = ({ attributes }) => (
-  <tr>
-    <td>{attributes.str}</td>
-    <td>{attributes.dex}</td>
-    <td>{attributes.con}</td>
-    <td>{attributes.int}</td>
-    <td>{attributes.wis}</td>
-    <td>{attributes.cha}</td>
-  </tr>
-);
+import {renderBonus} from "../../utils/stringUtils";
+import getStatBonus from "../../utils/getStatBonus";
 
 class AttributesTable extends React.Component {
 
   render() {
-    const { attributeRows } = this.props;
+    const { attributes } = this.props;
 
     return (
       <table className="center">
@@ -29,7 +20,22 @@ class AttributesTable extends React.Component {
           </tr>
         </thead>
         <tbody>
-        { attributeRows.map((attr, index) => <AttributeRow key={`attributeTableRow ${index}`} attributes={attr}/> )}
+          <tr>
+            <td>{attributes.str}</td>
+            <td>{attributes.dex}</td>
+            <td>{attributes.con}</td>
+            <td>{attributes.int}</td>
+            <td>{attributes.wis}</td>
+            <td>{attributes.cha}</td>
+          </tr>
+          <tr>
+            <td>{renderBonus(getStatBonus(attributes.str))}</td>
+            <td>{renderBonus(getStatBonus(attributes.dex))}</td>
+            <td>{renderBonus(getStatBonus(attributes.con))}</td>
+            <td>{renderBonus(getStatBonus(attributes.int))}</td>
+            <td>{renderBonus(getStatBonus(attributes.wis))}</td>
+            <td>{renderBonus(getStatBonus(attributes.cha))}</td>
+          </tr>
         </tbody>
       </table>
     );
