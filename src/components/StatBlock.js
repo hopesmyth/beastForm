@@ -5,6 +5,7 @@ import AttributesTable from "./subcomponents/AttributesTable";
 import SavesTable from "./subcomponents/SavesTable";
 import SkillsTable from "./subcomponents/SkillsTable";
 import Features from "./subcomponents/Features";
+import Actions from "./subcomponents/Actions";
 
 class StatBlock extends React.Component {
 
@@ -23,6 +24,7 @@ class StatBlock extends React.Component {
        <SavesTable saves={stats.saves}/>
        <Features features={stats.features}/>
        <hr/>
+       <Actions actions={stats.actions}/>
        <SkillsTable skills={stats.skills}/>
      </div>
     )
