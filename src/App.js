@@ -25,6 +25,8 @@ class App extends React.Component {
       index: cn,
       name: statBlocks[cn].name,
       cr: statBlocks[cn].cr,
+      swimSpeed: statBlocks[cn].swimSpeed,
+      flySpeed: statBlocks[cn].flySpeed,
     }));
     return selection.sort((a, b) => (a.cr > b.cr) ? 1 : -1);
   };

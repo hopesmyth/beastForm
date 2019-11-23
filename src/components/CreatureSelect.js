@@ -10,7 +10,7 @@ class CreatureSelect extends React.Component {
       <select value={selected} onChange={(e) => {selectFunc(e.target.value)}}>
         {creatures.map(c =>
           <option key={c.index} value={c.index}>
-            {c.name} ({renderFraction(c.cr)})
+            {c.name} ({renderFraction(c.cr)}{c.flySpeed ? 'F' : (c.swimSpeed ? 'S' : '' )})
           </option>
         )}
       </select>

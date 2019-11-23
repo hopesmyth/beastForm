@@ -77,12 +77,14 @@ const generateBeastForm = ({ beast: _beast, character }) => {
   const attributes = combineAttributes({ beast, character });
   const saves = combineSaves({ beast, character, attributes });
   const skills = combineSkills({ beast, character, attributes });
+  const passivePerception = skills.perception + 10;
 
   return {
     ...beast,
     attributes,
     saves,
     skills,
+    passivePerception,
   }
 };
 

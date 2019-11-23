@@ -1,15 +1,15 @@
-const brownBear = {
-  name: "Brown Bear",
+const polarBear = {
+  name: "Polar Bear",
   type: 'beast',
-  cr: 1,
+  cr: 2,
   size: 'large',
-  profBonus: 1,
-  ac: 11,
-  hp: 34,
+  profBonus: 2,
+  ac: 12,
+  hp: 42,
   speed: 40,
-  climbSpeed: 30,
+  swimSpeed: 30,
   attributes: {
-    str: 19,
+    str: 20,
     dex: 10,
     con: 16,
     int: 2,
@@ -17,7 +17,6 @@ const brownBear = {
     cha: 7,
   },
   skills: ['perception'],
-  expertise: ['perception'],
   features: [
     {
       name: "Keen Smell",
@@ -31,23 +30,23 @@ const brownBear = {
     },
     {
       name: "Bite",
-      toHit: 5,
+      toHit: 7,
       reach: 5,
       range: 'melee',
       attack: 'weapon',
       target: "one target",
-      hit: { piercing: { d8: 1, plus: 4 }},
+      hit: { piercing: { d8: 1, plus: 5 }},
     },
     {
       name: "Claws",
       toHit: 5,
-      reach: 5,
+      reach: 7  ,
       range: 'melee',
       attack: 'weapon',
       target: "one target",
-      hit: { slashing: { d6: 2, plus: 4 }},
+      hit: { slashing: { d6: 2, plus: 5 }},
     }
   ]
 };
 
-export default brownBear;
+export default polarBear;

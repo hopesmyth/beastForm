@@ -6,6 +6,7 @@ import SavesTable from "./subcomponents/SavesTable";
 import SkillsTable from "./subcomponents/SkillsTable";
 import Features from "./subcomponents/Features";
 import Actions from "./subcomponents/Actions";
+import Senses from "./subcomponents/Senses";
 
 class StatBlock extends React.Component {
 
@@ -22,6 +23,7 @@ class StatBlock extends React.Component {
        <AttributesTable attributes={stats.attributes}/>
        <h3>Saving Throws</h3>
        <SavesTable saves={stats.saves}/>
+       <Senses passivePerception={stats.passivePerception} senses={stats.senses}/>
        <Features features={stats.features}/>
        <hr/>
        <Actions actions={stats.actions}/>
